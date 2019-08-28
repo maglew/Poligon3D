@@ -5,37 +5,43 @@ import pack.render.DisplayManager;
 import pack.render.Loader;
 import pack.render.RawModel;
 import pack.render.Renderer;
+import pack.shaders.StaticShader;
 
 public class Main
 {
+        public static void main(String[] args) {
 
-    public static void main(String[] args)
-    {
         DisplayManager.createDisplay();
-
-        Loader loader=new Loader();
-        Renderer renderer=new Renderer();
+        Loader loader = new Loader();
+        Renderer renderer = new Renderer();
+        StaticShader shader = new StaticShader();
 
         float[] vertices = {
-                -0.5f, 0.5f, 0,
-                -0.5f, -0.5f, 0,
-                0.5f, -0.5f, 0,
-                0.5f, 0.5f, 0,
+                -0.5f,0.5f,0,   //V0
+                -0.5f,-0.5f,0,  //V1
+                0.5f,-0.5f,0,   //V2
+                0.5f,0.5f,0     //V3
         };
 
-        int[] indices ={
-                0,1,3,
-                3,1,2
+        int[] indices = {
+                0,1,3,  //Top left triangle (V0,V1,V3)
+                3,1,2   //Bottom right triangle (V3,V1,V2)
         };
+
         RawModel model = loader.loadToVAO(vertices,indices);
 
-        while(!Display.isCloseRequested())
-        {
+        while(!Display.isCloseRequested()){
+            //game logic
             renderer.prepare();
+            shader.start();
             renderer.render(model);
+            shader.stop();
             DisplayManager.updateDisplay();
         }
-     loader.cleanUp();
-    DisplayManager.closeDisplay();
+
+        shader.cleanUp();
+        loader.cleanUp();
+        DisplayManager.closeDisplay();
+
     }
 }

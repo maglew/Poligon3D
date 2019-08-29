@@ -1,6 +1,6 @@
-package pack.textures;
+package models;
 
-import pack.render.RawModel;
+import textures.ModelTexture;
 
 public class TexturedModel
 {

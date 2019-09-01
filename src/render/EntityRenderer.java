@@ -16,6 +16,7 @@ public class EntityRenderer {
 
     private StaticShader shader;
 
+
     public EntityRenderer(StaticShader shader,Matrix4f projectionMatrix) {
         this.shader = shader;
         shader.start();
@@ -46,6 +47,7 @@ public class EntityRenderer {
         if (texture. isHasTransparency () )
         {MasterRenderer. disableCulling();}
         shader.loadFakeLightingVariable(texture.isUseFakeLightning());
+
         shader.loadShineVariables(texture.getShineDamper(), texture.getReflectivity());
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, model.getTexture().getID());

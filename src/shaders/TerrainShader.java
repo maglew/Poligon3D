@@ -20,6 +20,12 @@ public class TerrainShader extends ShaderProgram
     private int location_reflectivity;
     private int location_useFakeLightning;
     private int location_skyColour;
+    private int location_backgroundTexture;
+    private int location_rTexture;
+    private int location_gTexture;
+    private int location_bTexture;
+    private int location_blendMap;
+
 
     public TerrainShader() {
         super(VERTEX_FILE, FRAGMENT_FILE);
@@ -43,15 +49,24 @@ public class TerrainShader extends ShaderProgram
         location_reflectivity = super.getUniformLocation("reflectivity");
         location_useFakeLightning = super.getUniformLocation("useFakeLightning");
         location_skyColour = super.getUniformLocation("skyColour");
+        location_backgroundTexture = super. getUniformLocation ("backgroundTexture");
+        location_rTexture = super. getUniformLocation("rTexture");
+        location_gTexture = super. getUniformLocation ("gTexture");
+        location_bTexture = super. getUniformLocation("bTexture");
+        location_blendMap = super. getUniformLocation("blendMap");
     }
 
     public void loadSkyColour(float r, float g, float b)
     {
         super. loadVector (location_skyColour, new Vector3f(r,g,b));}
 
-    public void loadFakeLightingVariable (boolean useFake)
+    public void connectTextureUnits ()
     {
-        super. loadBoolean (location_useFakeLightning, useFake);
+super. loadInt (location_backgroundTexture, 0);
+super. loadInt (location_rTexture, 1);
+super. loadInt (location_gTexture, 2);
+super. loadInt (location_bTexture, 3);
+super. loadInt (location_blendMap, 4) ;
     }
 
     public void loadShineVariables(float damper,float reflectivity){

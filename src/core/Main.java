@@ -80,8 +80,8 @@ public class Main {
 
         MasterRenderer renderer = new MasterRenderer();
 
-        Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap) ;
-        Terrain terrain2 = new Terrain(-1, -1, loader, texturePack, blendMap) ;
+        Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap,"heightMap") ;
+        Terrain terrain2 = new Terrain(-1, -1, loader, texturePack, blendMap,"heightMap") ;
 
         RawModel bunnyModel = OBJLoader. loadObjModel ("person", loader);
         TexturedModel stanfordBunny = new TexturedModel (bunnyModel, new ModelTexture (

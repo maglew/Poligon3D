@@ -1,6 +1,7 @@
 package core;
 
 import entities.Light;
+import entities.Player;
 import models.RawModel;
 import models.TexturedModel;
 
@@ -36,6 +37,8 @@ public class Main {
         TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
 
         RawModel model = OBJLoader.loadObjModel("tree", loader);
+
+
         TexturedModel staticModel = new TexturedModel(model, new ModelTexture(
                 loader.loadTexture("tree")));
         TexturedModel grass = new TexturedModel(OBJLoader.loadObjModel("grassModel", loader),
@@ -80,9 +83,14 @@ public class Main {
         Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap) ;
         Terrain terrain2 = new Terrain(-1, -1, loader, texturePack, blendMap) ;
 
+        RawModel bunnyModel = OBJLoader. loadObjModel ("person", loader);
+        TexturedModel stanfordBunny = new TexturedModel (bunnyModel, new ModelTexture (
+                loader. loadTexture ("playerTexture")));
+        Player player = new Player(stanfordBunny, new Vector3f(100, 0, -50), 0, 180, 0, 1);
         while(!Display.isCloseRequested()){
             camera.move();
-
+player.move();
+renderer.processEntity(player);
             renderer.processTerrain(terrain);
             renderer.processTerrain(terrain2);
 

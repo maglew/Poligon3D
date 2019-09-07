@@ -58,30 +58,34 @@ public class Main {
 
         List<Entity> entities = new ArrayList<Entity>();
         Random random = new Random(676452);
-        for (int i = 0; i < 400; i++){
-            if (i %7== 0){
-                entities.add(new Entity(grass, new Vector3f(random.nextFloat() * 400 - 200, 0,
-                        random.nextFloat() * -400), 0, 0, 0, 1.8f));
-                entities.add(new Entity(flower, new Vector3f(random.nextFloat() * 400 - 200, 0,
-                        random.nextFloat() * -400), 0, 0, 0, 2.3f));
-            }if (i % 3 == 0){
-        entities.add(new Entity(fern, new Vector3f(random.nextFloat() * 400 - 200, 0,
-                random.nextFloat() * -400), 0, random.nextFloat() * 360, 0, 0.9f));
-        entities.add(new Entity(bobble, new Vector3f(random.nextFloat()*800 - 400, 0,
-                random.nextFloat() * -600), 0, random.nextFloat() * 360, 0, random
-                .nextFloat() * 0.1f + 0.6f));
-        entities.add(new Entity(staticModel, new Vector3f(random.nextFloat()*800 - 400,
-                0, random.nextFloat() * -600), 0, 0, 0, random.nextFloat() * 1 + 4));
+        Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap,"heightMap") ;
 
+        for (int i = 0; i < 400; i++)
+        {    if (1 % 20 == 0){
+        float x = random.nextFloat() * 800 - 400;
+        float z = random.nextFloat() * -600;
+        float y = terrain.getHeightOfTerrain(x, z);
+        entities.add(new Entity(fern, new Vector3f(x, y, z), 0, random.nextFloat() * 360,
+                0, 0.9f));
 
+            }if (i % 5 == 0){
+            float x = random. nextFloat() * 800 - 400;
+            float z = random. nextFloat () * -600;
+            float y = terrain. getHeightOfTerrain(x, z);
+            entities. add (new Entity (bobble, new Vector3f(x, y, z), 0, random. nextFloat () * 360,
+                    0, random. nextFloat () * 0.1f + 0.6f) );
+            x = random. nextFloat() * 800 - 400;
+z= random. nextFloat () * -600;
+            y = terrain. getHeightOfTerrain (x, z);
+            entities. add (new Entity(staticModel, new Vector3f(x, y, z), 0, 0, 0, random
+                    .nextFloat () * 1 + 4) ) ;
 
     }}
         Light light = new Light(new Vector3f(20000, 20000, 2000), new Vector3f(1, 1, 1));
 
         MasterRenderer renderer = new MasterRenderer();
 
-        Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap,"heightMap") ;
-        Terrain terrain2 = new Terrain(-1, -1, loader, texturePack, blendMap,"heightMap") ;
+
 
         RawModel bunnyModel = OBJLoader. loadObjModel ("person", loader);
         TexturedModel stanfordBunny = new TexturedModel (bunnyModel, new ModelTexture (
@@ -92,10 +96,10 @@ public class Main {
 
         while(!Display.isCloseRequested()){
             camera.move();
-player.move();
+player.move(terrain);
 renderer.processEntity(player);
             renderer.processTerrain(terrain);
-            renderer.processTerrain(terrain2);
+
 
             for(Entity entity:entities){
                 renderer.processEntity(entity);

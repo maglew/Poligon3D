@@ -16,15 +16,18 @@ uniform mat4 viewMatrix;			// camera's perspective
 uniform vec3 lightPosition;			// location of the light source (only one source of light so far)
 uniform float useFakeLighting;
 
+uniform float numberOfRows;
+uniform vec2 offset;
+
 const float density = 0.0035;
 const float gradient = 5.0;
 
-void main(void){
+void main() {
 
 	vec4 worldPosition = transformationMatrix * vec4(position,1.0); // position is the position of the current vertex
 	vec4 positionRelativeToCam = viewMatrix * worldPosition;
 	gl_Position = projectionMatrix * positionRelativeToCam;
-	pass_textureCoordinates = textureCoordinates;
+	pass_textureCoordinates = (textureCoordinates / numberOfRows) + offset;
 
 	vec3 actualNormal = normal;
 	if (useFakeLighting > 0.5){

@@ -1,7 +1,6 @@
 package textures;
 
-public class TerrainTexture
-{
+public class TerrainTexture {
     private int textureID;
 
     public TerrainTexture(int textureID) {

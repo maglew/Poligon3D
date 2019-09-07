@@ -1,32 +1,18 @@
 package textures;
 
-public class ModelTexture
-{
+public class ModelTexture {
+
     private int textureID;
+    private float shineDamper = 10;
+    private float reflectivity = 1;
 
-    private float shineDamper = 1;
-    private float reflectivity = 0;
-    private boolean hasTransparency=false;
-    private boolean useFakeLightning=false;
+    private boolean hasTransparency = false;
+    private boolean useFakeLighting = false;
 
-    public ModelTexture(int texture){
-        this.textureID = texture;
-    }
+    private int numberOfRows = 1;
 
-    public boolean isUseFakeLightning() {
-        return useFakeLightning;
-    }
-
-    public void setUseFakeLightning(boolean useFakeLightning) {
-        this.useFakeLightning = useFakeLightning;
-    }
-
-    public boolean isHasTransparency() {
-        return hasTransparency;
-    }
-
-    public void setHasTransparency(boolean hasTransparency) {
-        this.hasTransparency = hasTransparency;
+    public ModelTexture(int id){
+        this.textureID = id;
     }
 
     public int getID(){
@@ -48,4 +34,27 @@ public class ModelTexture
     public void setReflectivity(float reflectivity) {
         this.reflectivity = reflectivity;
     }
+    public boolean isHasTransparency() {
+        return hasTransparency;
+    }
+
+    public void setHasTransparency(boolean hasTransparency) {
+        this.hasTransparency = hasTransparency;
+    }
+    public boolean isUseFakeLighting() {
+        return useFakeLighting;
+    }
+
+    public void setUseFakeLighting(boolean useFakeLighting) {
+        this.useFakeLighting = useFakeLighting;
+    }
+
+    public int getNumberOfRows() {
+        return numberOfRows;
+    }
+
+    public void setNumberOfRows(int numberOfRows) {
+        this.numberOfRows = numberOfRows;
+    }
+
 }

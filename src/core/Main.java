@@ -1,25 +1,25 @@
 package core;
 
-import entities.Light;
-import entities.Player;
-import models.RawModel;
-import models.TexturedModel;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 
-import render.*;
-import shaders.StaticShader;
-import terrains.Terrain;
-import textures.ModelTexture;
 import entities.Camera;
 import entities.Entity;
+import entities.Light;
+import entities.Player;
+import models.TexturedModel;
+import render.DisplayManager;
+import render.Loader;
+import render.MasterRenderer;
+import render.OBJLoader;
+import terrains.Terrain;
+import textures.ModelTexture;
 import textures.TerrainTexture;
 import textures.TerrainTexturePack;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class Main {
 
@@ -47,17 +47,18 @@ public class Main {
         //TexturedModel lamp = new TexturedModel(OBJLoader.loadObjModel("lamp", loader), new ModelTexture(loader.loadTexture("lamp")));
 
         ModelTexture fernTexture = new ModelTexture(loader.loadTexture("fern"));
+        fernTexture.setNumberOfRows(2);
         TexturedModel fern = new TexturedModel(OBJLoader.loadObjModel("fern", loader), fernTexture);
 
 
         grass.getTexture().setHasTransparency(true);
-        grass.getTexture().setUseFakeLightning(true);
+        grass.getTexture().setUseFakeLighting(true);
         grass.getTexture().setReflectivity(0);
         flower.getTexture().setHasTransparency(true);
-        flower.getTexture().setUseFakeLightning(true);
+        flower.getTexture().setUseFakeLighting(true);
         flower.getTexture().setReflectivity(0);
         fern.getTexture().setHasTransparency(true);
-        fern.getTexture().setUseFakeLightning(true);
+        fern.getTexture().setUseFakeLighting(true);
         fern.getTexture().setReflectivity(0);
 
         List<Entity> entities = new ArrayList<Entity>();
@@ -65,13 +66,13 @@ public class Main {
 
         for (int i = 0; i < 100; i++) {
             if (i % 7 == 0) {
-                float x = random.nextFloat() * 800 - 400;
+                float x = random.nextFloat() * 800;
                 float z = random.nextFloat() * -600;
                 float y = terrain.getHeightOfTerrain(x, z);
 
                 entities.add(new Entity(bobble, new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.9f));
 
-                entities.add(new Entity(fern, new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 1.5f));
+                entities.add(new Entity(fern, random.nextInt(4), new Vector3f(x-20, y, z), 0, random.nextFloat() * 360, 0, 1.5f));
 
                 entities.add(new Entity(grass, new Vector3f(x, y, z), 0, 0, 0, 1.8f));
 
@@ -79,17 +80,17 @@ public class Main {
             }
 
             if (i % 3 == 0) {
-                float x = random.nextFloat() * 800 - 400;
+                float x = random.nextFloat() * 800;
                 float z = random.nextFloat() * -600;
                 float y = terrain.getHeightOfTerrain(x, z);
 
-                x = random.nextFloat() * 800 - 400;
+                x = random.nextFloat() * 800;
                 z = random.nextFloat() * -600;
                 y = terrain.getHeightOfTerrain(x, z);
 
                 entities.add(new Entity(tree, new Vector3f(x, y, z), 0, 0, 0, random.nextFloat() * 1 + 4));
 
-                x = random.nextFloat() * 800 - 400;
+                x = random.nextFloat() * 800;
                 z = random.nextFloat() * -600;
                 y = terrain.getHeightOfTerrain(x, z)+5;
 
@@ -97,13 +98,16 @@ public class Main {
             }
         }
 
+        MasterRenderer renderer = new MasterRenderer();
+
         Light light = new Light(new Vector3f(20000, 20000, 2000), new Vector3f(1,1,1));
 
         TexturedModel avatar = new TexturedModel(OBJLoader.loadObjModel("player",  loader), new ModelTexture(loader.loadTexture("playerTexture")));
 
-        Player player = new Player(avatar, new Vector3f(100,0,-50), 0,180,0,1);
+
+
+        Player player = new Player(avatar, new Vector3f(400,0,-400), 0,180,0,1);
         Camera camera = new Camera(player);
-        MasterRenderer renderer = new MasterRenderer();
 
         while(!Display.isCloseRequested()) {
             camera.move();

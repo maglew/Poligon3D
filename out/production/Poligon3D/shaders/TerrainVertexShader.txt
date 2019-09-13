@@ -22,18 +22,18 @@ void main(void){
 
 	vec4 worldPosition = transformationMatrix * vec4(position,1.0); // position is the position of the current vertex
 	vec4 positionRelativeToCam = viewMatrix * worldPosition;
-
+	
 	gl_Position = projectionMatrix * positionRelativeToCam;  	// NOTE: viewMatrix must go in between the projectionMatrix and transformationMatrix
 	pass_textureCoordinates = textureCoordinates;
 	surfaceNormal = (transformationMatrix * vec4(normal, 0.0)).xyz; //(swizzle it) convert from vec4 back to vec3
-
+	
 	for(int i = 0; i < 4; i++) {
 		toLightVector[i] = lightPosition[i] - worldPosition.xyz;
 	}
 	toCameraVector = (inverse(viewMatrix) * vec4(0.0,0.0,0.0,1.0)).xyz - worldPosition.xyz;
-
+	
 	float distance = length(positionRelativeToCam.xyz);
 	visibility = exp(-pow((distance*density), gradient));
 	visibility = clamp(visibility, 0.0, 1.0);
-
+	
 }

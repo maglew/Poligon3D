@@ -6,14 +6,14 @@ in vec3 normal;
 
 out vec2 pass_textureCoordinates;
 out vec3 surfaceNormal;
-out vec3 toLightVector;
+out vec3 toLightVector[4];
 out vec3 toCameraVector;
 out float visibility;
 
 uniform mat4 transformationMatrix;	// the entity's position relative to the everything below
 uniform mat4 projectionMatrix;		// where the default location of everything is
 uniform mat4 viewMatrix;			// camera's perspective
-uniform vec3 lightPosition;			// location of the light source (only one source of light so far)
+uniform vec3 lightPosition[4];			// location of the light source (only one source of light so far)
 uniform float useFakeLighting;
 
 uniform float numberOfRows;
@@ -35,7 +35,9 @@ void main() {
 	}
 	surfaceNormal = (transformationMatrix * vec4(actualNormal, 0.0)).xyz; //(swizzle it) convert from vec4 back to vec3
 	//vec3 lightPosition2 = (transformationMatrix * vec4(lightPosition, 0.0)).xyz; //this will make the light source travel with the entity
-	toLightVector = lightPosition - worldPosition.xyz;
+	for (int i = 0; i < 4; i++) {
+		toLightVector[i] = lightPosition[i] - worldPosition.xyz;
+	}
 	toCameraVector = (inverse(viewMatrix) * vec4(0.0,0.0,0.0,1.0)).xyz - worldPosition.xyz;
 
 	float distance = length(positionRelativeToCam.xyz);

@@ -6,6 +6,7 @@ import java.util.Random;
 
 import guis.GuiRenderer;
 import guis.GuiTexture;
+import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
@@ -23,6 +24,7 @@ import terrains.Terrain;
 import textures.ModelTexture;
 import textures.TerrainTexture;
 import textures.TerrainTexturePack;
+import toolbox.MousePicker;
 
 public class Main {
 
@@ -46,7 +48,7 @@ public class Main {
         TexturedModel grass = new TexturedModel(OBJLoader.loadObjModel("grassModel", loader), new ModelTexture(loader.loadTexture("grassTexture")));
         TexturedModel flower = new TexturedModel(OBJLoader.loadObjModel("grassModel", loader), new ModelTexture(loader.loadTexture("flower")));
         TexturedModel box = new TexturedModel(OBJLoader.loadObjModel("box", loader), new ModelTexture(loader.loadTexture("box")));
-        TexturedModel bobble = new TexturedModel(OBJLoader.loadObjModel("lowPolyTree", loader), new ModelTexture(loader.loadTexture("lowPolyTree")));
+       // TexturedModel bobble = new TexturedModel(OBJLoader.loadObjModel("lowPolyTree", loader), new ModelTexture(loader.loadTexture("lowPolyTree")));
         TexturedModel lamp = new TexturedModel(OBJLoader.loadObjModel("lamp", loader), new ModelTexture(loader.loadTexture("lamp")));
 
         ModelTexture fernTexture = new ModelTexture(loader.loadTexture("fern"));
@@ -103,7 +105,7 @@ public class Main {
                 z = random.nextFloat() * -600;
                 y = terrain.getHeightOfTerrain(x, z);
 
-                entities.add(new Entity(bobble, new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.9f));
+               // entities.add(new Entity(bobble, new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.9f));
 
                 entities.add(new Entity(fern, random.nextInt(4), new Vector3f(x-20, y, z), 0, random.nextFloat() * 360, 0, 1.5f));
 
@@ -146,13 +148,16 @@ public class Main {
         //guis.add(gui3);
 
 
-
+        MousePicker picker =new MousePicker(camera, renderer.getProjectionMatrix ()) ;
 
         //GuiRenderer guiRenderer = new GuiRenderer(loader);
 
         while(!Display.isCloseRequested()) {
-            camera.move();
             player.move(terrain);
+            camera.move();
+            picker.update();
+           // System.out.println(picker.getCurrentRay());
+
             renderer.processEntity(player);
             renderer.processTerrain(terrain);
 
